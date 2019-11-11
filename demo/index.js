@@ -3,12 +3,22 @@ let currentMethod = 'orthogonal'
 const svg = d3.select('#content').append('svg').attr('width', '100%').attr('height', '100%')
 const node = svg.append('g')
 
-const boxes = [
-  { name: 'A', x: 100, y: 100, width: 100, height: 40 },
-  { name: 'B', x: 300, y: 10, width: 100, height: 40 },
-  { name: 'C', x: 300, y: 190, width: 100, height: 40 },
-  { name: 'D', x: 500, y: 100, width: 100, height: 40 }
-]
+const nodes = {
+  nodes: [
+    {id: 'A', width: 100, height: 40},
+    {id: 'B', width: 100, height: 40},
+    {id: 'C', width: 100, height: 40},
+    {id: 'D', width: 100, height: 40}
+  ],
+  edges: [
+    {v: 'A', w: 'B'},
+    {v: 'A', w: 'C'},
+    {v: 'B', w: 'D'},
+    {v: 'C', w: 'D'},
+  ]
+}
+
+const graph = al.layered(nodes)
 
 const routerMethod = {
   orthogonal: al.orthogonal,
@@ -16,18 +26,20 @@ const routerMethod = {
   metro: al.metro
 }
 
-function genPoints (method) {
+function genPoints (method, link) {
+  const vn = nodes.nodes.find(n => n.id === link.v)
+  const wn = nodes.nodes.find(n => n.id === link.w)
   const from = {
-    x: boxes[0].x + 100,
-    y: boxes[0].y + 20,
+    x: vn.x + vn.width,
+    y: vn.y + vn.height / 2,
     direction: 'right'
   }
   const to = {
-    x: boxes[1].x,
-    y: boxes[1].y + 20,
+    x: wn.x,
+    y: wn.y + wn.height / 2,
     direction: 'left'
   }
-  return routerMethod[method](from, to, boxes)
+  return routerMethod[method](from, to, nodes.nodes)
 }
 
 function genPath (points) {
@@ -39,23 +51,20 @@ function genPath (points) {
   return path.toString()
 }
 
-const rects = node.selectAll('g').data(boxes).enter().append('g').attr('transform', d => `translate(${d.x}, ${d.y})`)
+const rects = node.selectAll('g').data(nodes.nodes).enter().append('g').attr('transform', d => `translate(${d.x}, ${d.y})`)
 rects.append('rect').attr('width', d => d.width).attr('height', d => d.height).attr('fill', '#FFF').attr('stroke', '#000')
 rects.append('text')
   .attr('x', d => d.width / 2).attr('y', d => d.height / 2)
   .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
   .text(d => d.name)
 
-const links = [{ points: genPoints(currentMethod) }]
+const getPath = d => genPath(genPoints(currentMethod, d))
 const link = svg.insert('g', ':first-child')
-const paths = link.selectAll('path').data(links).enter().append('path')
-  .attr('d', d => genPath(d.points)).attr('fill', '#FFF').attr('fill-opacity', 0).attr('stroke', '#000')
+const paths = link.selectAll('path').data(nodes.edges).enter().append('path')
+  .attr('d', getPath).attr('fill', '#FFF').attr('fill-opacity', 0).attr('stroke', '#000')
 
 function updateLink () {
-  const points = genPoints(currentMethod)
-  if (points && points.length > 0) {
-    paths.datum({ points }).attr('d', d => genPath(d.points))
-  }
+  paths.attr('d', getPath)
 }
 
 rects.call(
@@ -77,3 +86,4 @@ d3.select('#tool').selectAll('button').data(btn).enter()
     currentMethod = d
     updateLink()
   })
+

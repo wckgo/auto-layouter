@@ -1,1 +1,2 @@
-export * from './router/index'
+export * from './layout'
+export * from './router'

@@ -1,9 +1,15 @@
 import resolve from 'rollup-plugin-node-resolve'
+import commonjs from 'rollup-plugin-commonjs'
 import { terser } from "rollup-plugin-terser"
+
 const common = {
   input: 'src/index.js',
   plugins: [
-    resolve()
+    resolve(),
+    commonjs({
+      include: 'node_modules/**',  
+      sourceMap: false
+    })
   ]
 }
 
@@ -22,7 +28,11 @@ const iifeProdConfig = Object.assign({}, common, {
   },
   plugins: [
     resolve(),
-    terser()
+    // terser(),
+    commonjs({
+      include: 'node_modules/**',  
+      sourceMap: false
+    })
   ]
 })
 

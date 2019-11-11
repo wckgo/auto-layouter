@@ -132,7 +132,6 @@ export default function manhattan(from, to, boxes, option) {
   }
 }
 
-// reconstructs a route by concatenating points with their parents
 function reconstructRoute(parents, points, tailPoint, from, to, source, target) {
   const route = []
 
