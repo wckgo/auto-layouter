@@ -1,16 +1,16 @@
 import { graphlib, layout } from 'dagre'
 
-export default function layered(data, option = {
+export default function layered(graph, option = {
   rankdir: 'LR'
 }) {
-  const graph = new graphlib.Graph()
-  graph.setGraph(option)
-  graph.setDefaultEdgeLabel(() => ({}))
-  data.nodes && data.nodes.forEach(node => {
-    graph.setNode(node.id, node)
+  const g = new graphlib.Graph()
+  g.setGraph(option)
+  g.setDefaultEdgeLabel(() => ({}))
+  graph.nodes && graph.nodes.forEach(node => {
+    g.setNode(node.id, node)
   })
-  data.edges && data.edges.forEach(edge => {
-    graph.setEdge(edge.v, edge.w)
+  graph.edges && graph.edges.forEach(edge => {
+    g.setEdge(edge.v, edge.w)
   })
-  layout(graph)
+  layout(g)
 }

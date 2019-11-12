@@ -52,11 +52,8 @@ export default function manhattan(from, to, boxes, option) {
   const endPoints = [offsetPoint(end, grid, getDirection(to.direction), precision)]
 
   const openSet = new SortedSet()
-  // Keeps reference to actual points for given elements of the open set.
   const points = {}
-  // Keeps reference to a point that is immediate predecessor of given element.
   const parents = {}
-  // Cost from start to a point along best known path.
   const costs = {}
 
   openSet.add(getKey(start), manhattanDistance(start, end))
@@ -65,62 +62,52 @@ export default function manhattan(from, to, boxes, option) {
 
   const endKey = getKey(endPoints[0])
   const isPathBeginning = (cache.previousRouteDirectionAngle === undefined)
-  // directions
+ 
   let direction, directionChange
   const penalties = getPenalties(step)
   getGridOffsets(directions, grid, step)
   const numDirections = directions.length
 
-  // main route finding loop
   let loopsRemaining = maximumLoops
 
   while (!openSet.isEmpty() && loopsRemaining > 0) {
-    // remove current from the open list
     const currentKey = openSet.pop()
     const currentPoint = points[currentKey]
     const currentParent = parents[currentKey]
     const currentCost = costs[currentKey]
-    const isRouteBeginning = (currentParent === undefined) // undefined for route starts
+    const isRouteBeginning = (currentParent === undefined) 
     const isStart = currentPoint.equals(start)
 
     let previousDirectionAngle
-    if (!isRouteBeginning) previousDirectionAngle = getDirectionAngle(currentParent, currentPoint, numDirections, grid, step) // a vertex on the route
-    else if (!isPathBeginning) previousDirectionAngle = cache.previousRouteDirectionAngle // beginning of route on the path
-    else if (!isStart) previousDirectionAngle = getDirectionAngle(start, currentPoint, numDirections, grid, step) // beginning of path, start rect point
-    else previousDirectionAngle = null // beginning of path, source anchor or `from` point
+    if (!isRouteBeginning) previousDirectionAngle = getDirectionAngle(currentParent, currentPoint, numDirections, grid, step)
+    else if (!isPathBeginning) previousDirectionAngle = cache.previousRouteDirectionAngle
+    else if (!isStart) previousDirectionAngle = getDirectionAngle(start, currentPoint, numDirections, grid, step)
+    else previousDirectionAngle = null
 
-    // check if we reached any endpoint
     const samePoints = isEqual(startPoints, endPoints)
     const skipEndCheck = (isRouteBeginning && samePoints)
     if (!skipEndCheck && endKey === currentKey) {
       return reconstructRoute(parents, points, currentPoint, start, end, sourceAnchor, targetAnchor)
     }
 
-    // go over all possible directions and find neighbors
     for (let i = 0; i < numDirections; i++) {
       direction = directions[i]
 
       const directionAngle = direction.angle
       directionChange = getDirectionChange(previousDirectionAngle, directionAngle)
 
-      // if the direction changed rapidly, don't use this point
-      // any direction is allowed for starting points
       if (!(isPathBeginning && isStart) && directionChange > maxAllowedDirectionChange) continue
 
       const neighborPoint = align(currentPoint.clone().offset(direction.gridOffsetX, direction.gridOffsetY), grid, precision)
       const neighborKey = getKey(neighborPoint)
 
-      // Closed points from the openSet were already evaluated.
       if (openSet.isClose(neighborKey) || !map.isPointAccessible(neighborPoint)) continue
 
-      // The current direction is ok.
       const neighborCost = direction.cost
       const neighborPenalty = isStart ? 0 : penalties[directionChange] // no penalties for start point
       const costFromStart = currentCost + neighborCost + neighborPenalty
 
       if (!openSet.isOpen(neighborKey) || (costFromStart < costs[neighborKey])) {
-        // neighbor point has not been processed yet
-        // or the cost of the path from start is lower than previously calculated
         points[neighborKey] = neighborPoint
         parents[neighborKey] = currentPoint
         costs[neighborKey] = costFromStart
@@ -137,13 +124,11 @@ function reconstructRoute(parents, points, tailPoint, from, to, source, target) 
 
   let prevDiff = normalizePoint(to.difference(tailPoint.x, tailPoint.y))
 
-  // tailPoint is assumed to be aligned already
   let currentKey = getKey(tailPoint)
   let parent = parents[currentKey]
 
   let point
   while (parent) {
-    // point is assumed to be aligned already
     point = points[currentKey]
 
     const diff = normalizePoint(point.difference(parent.x, parent.y))
@@ -152,12 +137,10 @@ function reconstructRoute(parents, points, tailPoint, from, to, source, target) 
       prevDiff = diff
     }
 
-    // parent is assumed to be aligned already
     currentKey = getKey(parent)
     parent = parents[currentKey]
   }
 
-  // leadPoint is assumed to be aligned already
   const leadPoint = points[currentKey]
 
   const fromDiff = normalizePoint(leadPoint.difference(from.x, from.y))

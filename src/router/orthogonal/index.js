@@ -31,12 +31,12 @@ function findOrthogonalDirection(directions, d) {
 }
 
 export default function orthogonal(from, to, {
-  extensionCord = 10,
-  turnRatio = 0.5
+  extensionCord = 10
 }) {
   if (!mustTowPoints(from, to) || !isDirection(from.direction)) {
     throw new TypeError('invalid parameter!')
   }
+  const turnRatio = 0.5
   let fromDirection = translateMatrix(getDirection(from.direction))
   let toDirection = to.direction
   // 获得入方向和出方向 ——参数中已获得; 当exitDirection 未定义时

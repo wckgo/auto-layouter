@@ -23,7 +23,7 @@ const graph = al.layered(nodes)
 const routerMethod = {
   orthogonal: al.orthogonal,
   manhattan: al.manhattan,
-  metro: al.metro
+  chebyshev: al.chebyshev
 }
 
 function genPoints (method, link) {
@@ -79,7 +79,7 @@ rects.call(
     })
 )
 
-const btn = ['orthogonal', 'manhattan', 'metro']
+const btn = ['orthogonal', 'manhattan', 'chebyshev']
 
 d3.select('#tool').selectAll('button').data(btn).enter()
   .append('button').text(d => d).on('click', d => {
