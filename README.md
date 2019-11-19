@@ -50,7 +50,7 @@ npm install auto-layouter
 示例：
 
 ```JavaScript
-import { layered, metro} from 'auto-layouter'
+import { layered, chebyshev} from 'auto-layouter'
 
 const graph = {
   nodes: [
@@ -82,7 +82,7 @@ const to = {
 }
 
 // 布线算法
-const points = metro(from, to, graph.nodes)
+const points = chebyshev(from, to, graph.nodes)
 
 ```
 

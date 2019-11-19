@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "author": "wckgo",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "scripts": {
     "build": "rollup -c"
   },
@@ -23,5 +23,9 @@
     "type": "git",
     "url": "https://github.com/wckgo/auto-layouter.git"
   },
+  "files": [
+    "dist/**/*.js",
+    "src/**/*.js"
+  ],
   "keywords": ["graph layout", "auto rouing", "auto layout"]
 }
