@@ -1,5 +1,6 @@
 {
   "name": "auto-layouter",
+  "description": "Graph layout and routing for JavaScript",
   "version": "0.0.1",
   "main": "src/index.js",
   "author": "wckgo",
@@ -17,5 +18,10 @@
   "dependencies": {
     "dagre": "^0.8.4",
     "lodash-es": "^4.17.15"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wckgo/auto-layouter.git"
+  },
+  "keywords": ["graph layout", "auto rouing", "auto layout"]
 }

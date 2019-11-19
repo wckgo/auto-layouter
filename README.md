@@ -27,6 +27,24 @@ Auto Layouter 是一个提供图布局算法和自动布线算法的JavaScript�
 npm install auto-layouter
 ```
 
+- ES Module
+
+  ```JavaScript
+  import * as al from 'auto-layouter'
+  ```
+
+- CommonJS
+
+  ```JavaScript
+  const al = require('auto-layouter/dist/auto-layouter.cjs')
+  ```
+
+- Browser
+
+  ```HTML
+  <script src="auto-layouter/dist/auto-layouter.min.js" />
+  ```
+
 ## 使用
 
 示例：
@@ -53,13 +71,13 @@ layered(graph)
 
 
 const from = {
-  x: graph[0].x + graph[0].width,
-  y: graph[0].y + graph[0].height / 2,
+  x: graph.nodes[0].x + graph.nodes[0].width,
+  y: graph.nodes[0].y + graph.nodes[0].height / 2,
   direction: 'right'
 }
 const to = {
-  x: graph[1].x,
-  y: graph[1].y + graph[1].height / 2,
+  x: graph.nodes[1].x,
+  y: graph.nodes[1].y + graph.nodes[1].height / 2,
   direction: 'left'
 }
 
