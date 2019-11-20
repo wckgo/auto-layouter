@@ -24,23 +24,6 @@ export function getKey (point) {
 }
 
 /**
- * 评估估算节点集合中最小曼哈顿距离
- *
- * @export
- * @param {Point} from 起点
- * @param {Point[]} endPoints 被估算节点集合
- * @returns 曼哈顿距离最小的点
- */
-export function estimateCost (from, endPoints) {
-  let min = Infinity
-  for (let i = 0, len = endPoints.length; i < len; i++) {
-    const cost = manhattanDistance(from, endPoints[i])
-    if (cost < min) min = cost
-  }
-  return min
-}
-
-/**
  * 计算两点之间的曼哈顿距离
  *
  * @export
@@ -50,6 +33,12 @@ export function estimateCost (from, endPoints) {
  */
 export function manhattanDistance (a, b) {
   return Math.abs(a.x - b.x) + Math.abs(a.y - b.y)
+}
+
+export function chebyshevDistance (a, b) {
+  const dx = Math.abs(a.x - b.x)
+  const dy = Math.abs(a.y - b.y)
+  return dx + dy + (Math.sqrt(2) - 2) * Math.min(dx, dy)
 }
 
 /**
@@ -197,8 +186,8 @@ export function getDirections (step, orientation) {
 export function getPenalties (step) {
   return {
     0: 0,
-    45: step / 2,
-    90: step / 2
+    45: step,
+    90: step
   }
 }
 

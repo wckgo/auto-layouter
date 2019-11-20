@@ -39,7 +39,6 @@ export default function orthogonal(from, to, {
   const turnRatio = 0.5
   let fromDirection = translateMatrix(getDirection(from.direction))
   let toDirection = to.direction
-  // 获得入方向和出方向 ——参数中已获得; 当exitDirection 未定义时
   if (!toDirection || toDirection === DIRECTION_ENUM.MID) {
     const entryToExit = vectorFromPoints(to, from)
     if (Math.abs(entryToExit.x) > Math.abs(entryToExit.y)) {
