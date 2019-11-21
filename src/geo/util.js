@@ -187,7 +187,7 @@ export function getPenalties (step) {
   return {
     0: 0,
     45: step,
-    90: step
+    90: step * 2
   }
 }
 

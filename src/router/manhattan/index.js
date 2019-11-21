@@ -22,7 +22,7 @@ import {
 const defaultOption = {
   step: 10,
   maxAllowedDirectionChange: 90,
-  precision: 1,
+  precision: 0,
   maximumLoops: 2000,
   directions() {
     return getDirections(this.step, 4)
