@@ -149,23 +149,16 @@ function reconstructRoute(parents, points, tailPoint, from, to, source, target) 
   let point
   while (parent) {
     point = points[currentKey]
-
     const diff = normalizePoint(point.difference(parent.x, parent.y))
     if (!diff.equals(prevDiff)) {
       route.unshift(point)
       prevDiff = diff
     }
-
     currentKey = getKey(parent)
     parent = parents[currentKey]
   }
-
   const leadPoint = points[currentKey]
-
-  const fromDiff = normalizePoint(leadPoint.difference(from.x, from.y))
-  if (!fromDiff.equals(prevDiff)) {
-    route.unshift(leadPoint)
-  }
+  route.unshift(leadPoint)
   route.unshift(source)
   route.push(target)
   return route

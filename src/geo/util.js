@@ -38,7 +38,7 @@ export function manhattanDistance (a, b) {
 export function chebyshevDistance (a, b) {
   const dx = Math.abs(a.x - b.x)
   const dy = Math.abs(a.y - b.y)
-  return dx + dy + (Math.sqrt(2) - 2) * Math.min(dx, dy)
+  return dx + dy + (Math.SQRT2 - 2) * Math.min(dx, dy)
 }
 
 export function euclideanDistance (a, b) {
