@@ -189,3 +189,8 @@ const points = chebyshev(from, to, graph.nodes)
 - chebyshev(from, to, boxes, [option])
 
   也是采用A*搜索算法(A-star search algorithm)实现。不过启发式函数为切比雪夫距离(Chebyshev distance),即，路径的搜索方向增长到了8个，增加了4个对角线方向。参数和返回值同上。
+
+- euclidean(from, to, boxes, [option])
+
+  也是采用A*搜索算法(A-star search algorithm)实现。不过启发式函数为欧几里得距离(Euclidean distance)。
+  

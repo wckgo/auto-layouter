@@ -41,6 +41,9 @@ export function chebyshevDistance (a, b) {
   return dx + dy + (Math.sqrt(2) - 2) * Math.min(dx, dy)
 }
 
+export function euclideanDistance (a, b) {
+  return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2))
+}
 /**
  * 把点P进行归一化处理
  *
