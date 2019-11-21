@@ -28,7 +28,7 @@ const iifeProdConfig = Object.assign({}, common, {
   },
   plugins: [
     resolve(),
-    // terser(),
+    terser(),
     commonjs({
       include: 'node_modules/**',  
       sourceMap: false
